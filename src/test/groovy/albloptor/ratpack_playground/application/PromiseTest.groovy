@@ -1,8 +1,6 @@
 package albloptor.ratpack_playground.application
 
 
-import ratpack.exec.Promise
-import ratpack.test.exec.ExecHarness
 import spock.lang.Specification
 
 class PromiseTest extends Specification {
@@ -10,7 +8,7 @@ class PromiseTest extends Specification {
     private RatpackExecutor executor
 
     void setup() {
-        executor = new RatpackExecutor()
+        executor = new RatpackExecutor(new Repository(), new Controller(), new Ratpack())
     }
 
     def "promise refactoring"() {

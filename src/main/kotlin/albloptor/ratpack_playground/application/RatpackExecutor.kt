@@ -3,32 +3,21 @@ package albloptor.ratpack_playground.application
 import ratpack.exec.Promise
 import ratpack.test.exec.ExecHarness
 
-class RatpackExecutor {
+class RatpackExecutor(private val repository: Repository,
+                      private val controller: Controller,
+                      private val ratpack: Ratpack) {
+
 
     private fun secuencialRun() : String {
         var result = ""
          ExecHarness.harness().run {
             result += "a"
-            result += databaseCall()
-            result += restCall()
-            result += ratpackCall()
+            result += repository.find()
+            result += controller.call()
+            result += ratpack.call()
             result += "e"
         }
         return result
-    }
-
-    private fun databaseCall() : String{
-        Thread.sleep(1000L)
-        return "b"
-    }
-
-    private fun restCall() : String{
-        Thread.sleep(1000L)
-        return "c"
-    }
-
-    private fun ratpackCall(): Promise<String> {
-        return Promise.value("d")
     }
 
     private fun nestedRun() : String{
