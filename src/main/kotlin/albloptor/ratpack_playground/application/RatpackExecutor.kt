@@ -11,11 +11,11 @@ class RatpackExecutor(private val repository: Repository,
     private fun secuencialRun() : String {
         var result = ""
          ExecHarness.harness().run {
-            result += "a"
-            result += repository.find()
-            result += controller.call()
-            result += ratpack.call()
-            result += "e"
+            result = result.plus("a")
+                    .plus(repository.find())
+                    .plus(controller.call())
+                    .plus(ratpack.call())
+                    .plus("e")
         }
         return result
     }
@@ -23,7 +23,7 @@ class RatpackExecutor(private val repository: Repository,
     private fun nestedRun() : String{
         var result = ""
         ExecHarness.harness().run {
-            Promise.value("1").flatMap {
+            Promise.value("1").map {
                 result += it
                 Promise.value("2").then {
                     result += it
