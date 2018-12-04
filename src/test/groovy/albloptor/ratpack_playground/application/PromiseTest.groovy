@@ -1,5 +1,6 @@
 package albloptor.ratpack_playground.application
 
+import ratpack.exec.Promise
 import ratpack.test.exec.ExecHarness
 import spock.lang.Specification
 
@@ -24,21 +25,25 @@ class PromiseTest extends Specification {
         result == "abcde"
     }
 
-
-
-    def "nested promises"() {
+    def "nested promises2"() {
         given:
         def result = ""
 
         when:
         ExecHarness.harness().run {
-            result = executor.nestedRun()
+            Promise.value("1").map {
+                result += it
+                Promise.value("2").then {
+                    result += it
+                    Promise.value("3")
+                }
+            }.then {
+                result += "4"
+            }
         }
 
         then:
         result == "1234"
     }
-
-
 
 }
