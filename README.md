@@ -1,5 +1,7 @@
 # ratpack-playground
 
+![giphy](README.gif)
+
 In this exercise we will try to fix two broken test to better understand the execution model of ratpack.
 
 ## Set up
