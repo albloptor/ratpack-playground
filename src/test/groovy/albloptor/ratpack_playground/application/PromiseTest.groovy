@@ -1,6 +1,6 @@
 package albloptor.ratpack_playground.application
 
-
+import ratpack.test.exec.ExecHarness
 import spock.lang.Specification
 
 class PromiseTest extends Specification {
@@ -12,8 +12,13 @@ class PromiseTest extends Specification {
     }
 
     def "promise refactoring"() {
+        given:
+        def result = ""
+
         when:
-        def result = executor.secuencialRun()
+        ExecHarness.harness().run {
+            result = executor.secuencialRun()
+        }
 
         then:
         result == "abcde"
@@ -22,8 +27,13 @@ class PromiseTest extends Specification {
 
 
     def "nested promises"() {
+        given:
+        def result = ""
+
         when:
-        def result = executor.nestedRun()
+        ExecHarness.harness().run {
+            result = executor.nestedRun()
+        }
 
         then:
         result == "1234"
