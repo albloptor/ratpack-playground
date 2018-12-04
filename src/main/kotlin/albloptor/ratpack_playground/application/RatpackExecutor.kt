@@ -1,11 +1,13 @@
 package albloptor.ratpack_playground.application
 
+import ratpack.exec.Promise
+
 class RatpackExecutor(private val repository: Repository,
                       private val controller: Controller,
                       private val ratpack: Ratpack) {
 
 
-    private fun secuencialRun(): String {
+    private fun sequentialRun(): Promise<String> {
         var result = ""
         result = result.plus("a")
                 .plus(repository.find())
@@ -13,6 +15,6 @@ class RatpackExecutor(private val repository: Repository,
                 .plus(ratpack.call())
                 .plus("e")
 
-        return result
+        return Promise.value(result)
     }
 }
