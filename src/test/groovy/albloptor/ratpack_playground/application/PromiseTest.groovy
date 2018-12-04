@@ -13,13 +13,10 @@ class PromiseTest extends Specification {
     }
 
     def "promise refactoring"() {
-        given:
-        def result = ""
-
         when:
-        ExecHarness.harness().run {
-            result = executor.secuencialRun()
-        }
+        def result = ExecHarness.harness().yield() {
+            executor.sequentialRun()
+        }.value
 
         then:
         result == "abcde"
