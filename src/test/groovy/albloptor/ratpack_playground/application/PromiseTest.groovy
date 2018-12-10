@@ -6,11 +6,11 @@ import spock.lang.Specification
 
 class PromiseTest extends Specification {
 
-    private RatpackExecutor executor
-
-    void setup() {
-        executor = new RatpackExecutor(new Repository(), new Controller(), new Ratpack())
-    }
+    private RatpackExecutor executor = new RatpackExecutor(
+            new Repository(),
+            new Controller(),
+            new Ratpack(),
+            new NumberProvider())
 
     def "promise refactoring"() {
         when:
@@ -22,22 +22,11 @@ class PromiseTest extends Specification {
         result == "abcde"
     }
 
-    def "nested promises2"() {
-        given:
-        def result = ""
-
+    def "nested promises"() {
         when:
-        ExecHarness.harness().run {
-            Promise.value("1").map {
-                result += it
-                Promise.value("2").then {
-                    result += it
-                    Promise.value("3")
-                }
-            }.then {
-                result += "4"
-            }
-        }
+        def result = ExecHarness.harness().yield {
+            executor.nestedPromises()
+        }.valueOrThrow
 
         then:
         result == "1234"
