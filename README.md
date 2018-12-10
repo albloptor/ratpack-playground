@@ -17,5 +17,6 @@ In this exercise we will try to fix two broken tests to better understand Ratpac
 Notes: 
 - You can and probably should change method signatures and implementation of the production code, but you can't change the test code.
 
-### Case 2: nested promises
-1. Fix the function nestedRun to make this test work
+### Exercise 2
+1. Implement the method so that the test passes.
+2. Test and production methods cannot be changed.
